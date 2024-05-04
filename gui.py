@@ -3,24 +3,26 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from PyQt5.QtWidgets import (
-                        QWidget,
-                        QApplication,
-                        QMainWindow,
-                        QVBoxLayout,
-                        QScrollArea,
-                    )
+    QWidget,
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QScrollArea,
+)
 
 from matplotlib.backends.backend_qt5agg import (
-                        FigureCanvasQTAgg as FigCanvas,
-                        NavigationToolbar2QT as NabToolbar,
-                    )
+    FigureCanvasQTAgg as FigCanvas,
+    NavigationToolbar2QT as NabToolbar,
+)
 
 matplotlib.use('Qt5Agg')
+
 
 def runGui(fig):
     app = QApplication(sys.argv)
     window = MyApp(fig)
     sys.exit(app.exec_())
+
 
 class MyApp(QWidget):
     def __init__(self, fig):

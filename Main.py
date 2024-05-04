@@ -14,7 +14,7 @@ def main():
 
     cycol = cycle('bgrcmk')
 
-    #File to write to
+    # File to write to
     results = open('Files/Results.txt', 'w')
 
     # First plotting the fuzzifier set
@@ -59,7 +59,6 @@ def main():
             case _:
                 print("Unable to find axs to plot from for: " + fuzzySet.var)
 
-
     for application in applications:
         # Fuzzyifcation
         age = application.data[0][1]
@@ -102,34 +101,35 @@ def main():
         for rule in fuzzySystem:
             arrayMin = [1]
             for antecedent in rule.antecedent:
-                im =  interp_memberhips.get(antecedent)
+                im = interp_memberhips.get(antecedent)
                 arrayMin = np.fmin(arrayMin, im)
 
             # Now apply this by clipping the top off the corresponding output
             # membership function with `np.fmin`
             rules.append(
                 np.fmin(arrayMin, fuzzySystemSet.get(rule.consequent).y))
-        
+
         # for rule in rules:
         #     for key in fuzzySystemSet:
         #         risk = fuzzySystemSet.get(key)
         #         color = next(cycol)
         #         axs[6].fill_between(risk.x, np.zeros_like(risk.x), rule, facecolor= color, alpha=0.7)
         #         axs[6].plot(risk.x, risk.y, color, linewidth=0.5, linestyle='--', )
-   
-        #Defuzzification
+
+        # Defuzzification
         # Aggregate all output membership functions together
         aggregated = [0]
         for rule in rules:
-            aggregated = np.fmax(aggregated, rule);
-        
-        #Need x domain of an arbitary risk funcion
+            aggregated = np.fmax(aggregated, rule)
+
+        # Need x domain of an arbitary risk funcion
         x = fuzzySystemSet.get("Risk=LowR").x
         risk = fuzz.defuzz(x, aggregated, 'centroid')
-        s = "Application: " + application.appId + " Has a risk of: " + str(round(risk, 2)) + "%\n"
+        s = "Application: " + application.appId + \
+            " Has a risk of: " + str(round(risk, 2)) + "%\n"
         results.write(s)
 
-        # risk_plot = fuzz.interp_membership(x, aggregated, risk) 
+        # risk_plot = fuzz.interp_membership(x, aggregated, risk)
 
         # for key in fuzzySystemSet:
         #     r = fuzzySystemSet.get(key)
