@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 class FuzzySetsDict(dict):
-    
+
     def printFuzzySetsDict(self):
         for elem in self:
             print("setid:     ", elem)
             self[elem].printSet()
-    
+
+
 class FuzzySet:
     var = ""	        # variable of the fuzzy set (ex.: Age)
     label = ""		# label of the specific fuzzy set (ex.: Young)
@@ -16,23 +17,25 @@ class FuzzySet:
     def printSet(self):
         print("var:       ", self.var)
         print("label:     ", self.label)
-        #print("x coord:   ", self.x)
-        #print("y coord:   ", self.y)
+        print("x coord:   ", self.x)
+        print("y coord:   ", self.y)
         print("memDegree: ", self.memDegree)
         print()
+
 
 class RuleList(list):
     def printRuleList(self):
         for elem in self:
             elem.printRule()
 
+
 class Rule:
-    ruleName = ""	# name of the rule (str)
-    antecedent = []	# list of setids		
-    consequent = ""	# just one setid
-    strength = 0	# float
-    consequentX = []	# output fuzzySet, abscissas
-    consequentY = []	# output fuzzySet, ordinates
+    ruleName = ""  # name of the rule (str)
+    antecedent = []  # list of setids
+    consequent = ""  # just one setid
+    strength = 0  # float
+    consequentX = []  # output fuzzySet, abscissas
+    consequentY = []  # output fuzzySet, ordinates
 
     def printRule(self):
         print("ruleName: ", self.ruleName)
@@ -40,6 +43,7 @@ class Rule:
         print("THEN      ", self.consequent)
         print("strength: ", self.strength)
         print()
+
 
 class Application:
     appId = ""          # application identifier (str)
