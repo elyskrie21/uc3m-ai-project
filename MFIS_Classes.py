@@ -16,8 +16,8 @@ class FuzzySet:
     def printSet(self):
         print("var:       ", self.var)
         print("label:     ", self.label)
-        #print("x coord:   ", self.x)
-        #print("y coord:   ", self.y)
+        print("x coord:   ", self.x)
+        print("y coord:   ", self.y)
         print("memDegree: ", self.memDegree)
         print()
 
