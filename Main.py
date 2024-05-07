@@ -7,10 +7,16 @@ from gui import *
 
 
 def main():
+    # Main Variables
     applications = readApplicationsFile()
     fuzzifierSetsDict = readFuzzySetsFile('Files/InputVarSets.txt')
     fuzzySystemSet = readFuzzySetsFile('Files/Risks.txt')
     fuzzySystem = readRulesFile()
+
+    # Variables for graphing
+    applicationSize = len(applications)
+    applicationRulesGraphData = {}
+    applicationRiskGraphData = {}
 
     cycol = cycle('bgrcmk')
 
@@ -18,7 +24,7 @@ def main():
     results = open('Files/Results.txt', 'w')
 
     # First plotting the fuzzifier set
-    fig, axs = plt.subplots(nrows=7, figsize=(8, 24))
+    fig, axs = plt.subplots(nrows=7, figsize=(8, 18))
 
     for key in fuzzifierSetsDict:
         # getting the membership function and  universe variables.
@@ -109,12 +115,13 @@ def main():
             rules.append(
                 np.fmin(arrayMin, fuzzySystemSet.get(rule.consequent).y))
 
-        # for rule in rules:
-        #     for key in fuzzySystemSet:
-        #         risk = fuzzySystemSet.get(key)
-        #         color = next(cycol)
-        #         axs[6].fill_between(risk.x, np.zeros_like(risk.x), rule, facecolor= color, alpha=0.7)
-        #         axs[6].plot(risk.x, risk.y, color, linewidth=0.5, linestyle='--', )
+        graphData = []
+        for rule in rules:
+            for key in fuzzySystemSet:
+                risk = fuzzySystemSet.get(key)
+                graphData.append(
+                    [risk.x, risk.y, np.zeros_like(risk.x), rule])
+        applicationRulesGraphData[application.appId.lstrip('0')] = graphData
 
         # Defuzzification
         # Aggregate all output membership functions together
@@ -129,27 +136,20 @@ def main():
             " Has a risk of: " + str(round(risk, 2)) + "%\n"
         results.write(s)
 
-        # risk_plot = fuzz.interp_membership(x, aggregated, risk)
+        risk_plot = fuzz.interp_membership(x, aggregated, risk)
 
-        # for key in fuzzySystemSet:
-        #     r = fuzzySystemSet.get(key)
-        #     color = next(cycol)
-        #     axs[6].plot(x, r.y, color, linewidth=0.5, linestyle='--', )
-        # axs[6].fill_between(x, np.zeros_like(x), aggregated, facecolor='Orange', alpha=0.7)
-        # axs[6].plot([risk, risk], [0, risk_plot], 'k', linewidth=1.5, alpha=0.9)
-        # axs[6].set_title('Aggregated membership and result (line)')
-
-    # Turn off top/right axes
-    for ax in axs.flat:
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.get_xaxis().tick_bottom()
-        ax.get_yaxis().tick_left()
+        for key in fuzzySystemSet:
+            r = fuzzySystemSet.get(key)
+            color = next(cycol)
+            axs[6].plot(x, r.y, color, linewidth=0.5, linestyle='--', )
+        applicationRiskGraphData[application.appId.lstrip(
+            '0')] = [x, np.zeros_like(x), aggregated, risk, risk_plot]
 
     plt.tight_layout()
 
     results.close()
-    runGui(fig)
+    runGui(rulesGraphData=applicationRulesGraphData,
+           riskGraphData=applicationRiskGraphData, fig=fig)
 
 
 if __name__ == "__main__":
