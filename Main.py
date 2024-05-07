@@ -1,7 +1,5 @@
 import numpy as np
 import skfuzzy as fuzz
-import matplotlib.pyplot as plt
-from itertools import cycle
 from MFIS_Read_Functions import *
 from gui import *
 
@@ -14,7 +12,8 @@ def main():
     fuzzySystem = readRulesFile()
 
     # Variables for graphing
-    applicationSize = len(applications)
+    basicGraphs = []
+    applicationData = {}
     applicationRulesGraphData = {}
     applicationRiskGraphData = {}
     applicationRiskBasicGraphData = []
@@ -22,56 +21,26 @@ def main():
     # File to write to
     results = open('Files/Results.txt', 'w')
 
-    # First plotting the fuzzifier set
-    fig, axs = plt.subplots(nrows=7, figsize=(8, 18))
-    cycol = cycle('bgrcmk')
+    #Generating data for graphs
+    for key in fuzzifierSetsDict:
+        # getting the membership function and  universe variables.
+        fuzzySet = fuzzifierSetsDict.get(key)
+        basicGraphs.append({
+            "var": fuzzySet.var,
+            "x": fuzzySet.x,
+            "y": fuzzySet.y,
+            "label": fuzzySet.label
+        })
 
     for key in fuzzySystemSet:
         r = fuzzySystemSet.get(key)
         applicationRiskBasicGraphData.append([r.x, r.y])
-        axs[6].plot(r.x, r.y, c=next(cycol),
-                            linewidth=1.5, label=r.label)
-        axs[6].set_title("Risk")
-        axs[6].legend()
-
-    for key in fuzzifierSetsDict:
-        # getting the membership function and  universe variables.
-        fuzzySet = fuzzifierSetsDict.get(key)
-
-        # visuals
-        match fuzzySet.var:
-            case "Age":
-                axs[0].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[0].set_title("AGE")
-                axs[0].legend()
-            case "IncomeLevel":
-                axs[1].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[1].set_title("IncomeLevel")
-                axs[1].legend()
-            case "Assets":
-                axs[2].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[2].set_title("Assets")
-                axs[2].legend()
-            case "Amount":
-                axs[3].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[3].set_title("Amount")
-                axs[3].legend()
-            case "Job":
-                axs[4].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[4].set_title("Job")
-                axs[4].legend()
-            case "History":
-                axs[5].plot(fuzzySet.x, fuzzySet.y, c=next(cycol),
-                            linewidth=1.5, label=fuzzySet.label)
-                axs[5].set_title("History")
-                axs[5].legend()
-            case _:
-                print("Unable to find axs to plot from for: " + fuzzySet.var)
+        basicGraphs.append({
+            "var": r.var,
+            "x": r.x,
+            "y": r.y,
+            "label": r.label
+        })
 
     for application in applications:
         # Fuzzyifcation
@@ -81,6 +50,17 @@ def main():
         Amount = application.data[3][1]
         Job = application.data[4][1]
         History = application.data[5][1]
+
+        appIDWithoutLeadingZeros = application.appId.lstrip('0')
+
+        applicationData[appIDWithoutLeadingZeros] = {
+            "age": age,
+            "IncomeLevel": IncomeLevel,
+            "Assets": Assets,
+            "Amount": Amount,
+            "Job": Job,
+            "History": History
+        }
 
         # generating interp_memberships
         interp_memberhips = {}
@@ -129,7 +109,7 @@ def main():
                 risk = fuzzySystemSet.get(key)
                 graphData.append(
                     [risk.x, risk.y, np.zeros_like(risk.x), rule])
-        applicationRulesGraphData[application.appId.lstrip('0')] = graphData
+        applicationRulesGraphData[appIDWithoutLeadingZeros] = graphData
 
         # Defuzzification
         # Aggregate all output membership functions together
@@ -146,15 +126,15 @@ def main():
 
         risk_plot = fuzz.interp_membership(x, aggregated, risk)
 
-        applicationRiskGraphData[application.appId.lstrip(
-            '0')] = [x, np.zeros_like(x), aggregated, risk, risk_plot]
-
-    plt.tight_layout()
+        applicationRiskGraphData[appIDWithoutLeadingZeros] = [
+            x, np.zeros_like(x), aggregated, risk, risk_plot]
 
     results.close()
     runGui(rulesGraphData=applicationRulesGraphData,
-           riskGraphData=applicationRiskGraphData, riskGraphBasicData=applicationRiskBasicGraphData, fig=fig)
-
+           riskGraphData=applicationRiskGraphData,
+           riskGraphBasicData=applicationRiskBasicGraphData,
+           applicationData=applicationData,
+           basicGraphs=basicGraphs)
 
 if __name__ == "__main__":
     main()
