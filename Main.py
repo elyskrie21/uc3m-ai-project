@@ -17,14 +17,22 @@ def main():
     applicationSize = len(applications)
     applicationRulesGraphData = {}
     applicationRiskGraphData = {}
-
-    cycol = cycle('bgrcmk')
+    applicationRiskBasicGraphData = []
 
     # File to write to
     results = open('Files/Results.txt', 'w')
 
     # First plotting the fuzzifier set
     fig, axs = plt.subplots(nrows=7, figsize=(8, 18))
+    cycol = cycle('bgrcmk')
+
+    for key in fuzzySystemSet:
+        r = fuzzySystemSet.get(key)
+        applicationRiskBasicGraphData.append([r.x, r.y])
+        axs[6].plot(r.x, r.y, c=next(cycol),
+                            linewidth=1.5, label=r.label)
+        axs[6].set_title("Risk")
+        axs[6].legend()
 
     for key in fuzzifierSetsDict:
         # getting the membership function and  universe variables.
@@ -138,10 +146,6 @@ def main():
 
         risk_plot = fuzz.interp_membership(x, aggregated, risk)
 
-        for key in fuzzySystemSet:
-            r = fuzzySystemSet.get(key)
-            color = next(cycol)
-            axs[6].plot(x, r.y, color, linewidth=0.5, linestyle='--', )
         applicationRiskGraphData[application.appId.lstrip(
             '0')] = [x, np.zeros_like(x), aggregated, risk, risk_plot]
 
@@ -149,7 +153,7 @@ def main():
 
     results.close()
     runGui(rulesGraphData=applicationRulesGraphData,
-           riskGraphData=applicationRiskGraphData, fig=fig)
+           riskGraphData=applicationRiskGraphData, riskGraphBasicData=applicationRiskBasicGraphData, fig=fig)
 
 
 if __name__ == "__main__":
