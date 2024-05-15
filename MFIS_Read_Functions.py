@@ -38,18 +38,28 @@ def readFuzzySetsFile(fleName):
     return fuzzySetsDict
 
 
-def readRulesFile():
+def readRulesFile(version=1):
     inputFile = open('Files/Rules.txt', 'r')
+    if version == 2:
+        inputFile = open('Files/D06 Rules.txt', 'r')
+
     rules = RuleList()
+    index = 2;
     line = inputFile.readline()
     while line != '':
         rule = Rule()
         line = line.rstrip()
         elementsList = line.split(', ')
         rule.ruleName = elementsList[0]
-        rule.consequent = elementsList[1]
+
+        if "Operator" in elementsList[1]:
+            rule.operator = elementsList[1]
+            rule.consequent = elementsList[2]
+            index = 3
+        else:
+            rule.consequent = elementsList[1]
         lhs = []
-        for i in range(2, len(elementsList), 1):
+        for i in range(index, len(elementsList), 1):
             lhs.append(elementsList[i])
         rule.antecedent = lhs
         rules.append(rule)

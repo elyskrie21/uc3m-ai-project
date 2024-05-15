@@ -33,6 +33,7 @@ class Rule:
     ruleName = ""  # name of the rule (str)
     antecedent = []  # list of setids
     consequent = ""  # just one setid
+    operator = ""
     strength = 0  # float
     consequentX = []  # output fuzzySet, abscissas
     consequentY = []  # output fuzzySet, ordinates
@@ -42,6 +43,7 @@ class Rule:
         print("IF        ", self.antecedent)
         print("THEN      ", self.consequent)
         print("strength: ", self.strength)
+        print("operator: ", self.operator)
         print()
 
 

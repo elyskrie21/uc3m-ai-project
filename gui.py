@@ -74,7 +74,7 @@ class MyApp(QWidget):
         basicGraphs.addWidget(nav)
         basicGraphs.addWidget(scroll)
 
-        applicationSelectionButton = QPushButton("View Application")
+        applicationSelectionButton = QPushButton("View")
         applicationSelectionButton.setMinimumHeight(30)
         applicationSelectionButton.setStyleSheet("background-color: red")
         applicationSelectionButton.clicked.connect(self.changeApplication)

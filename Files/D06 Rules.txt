@@ -1,0 +1,38 @@
+Rule01, Operator=AND, Risk=LowR, IncomeLevel=Hig, Assets=Abundant, Amount=Small
+Rule02, Operator=AND, Risk=LowR, IncomeLevel=Hig, Assets=Abundant, Amount=Medium
+Rule03, Operator=AND, Risk=MediumR, IncomeLevel=Hig, Assets=Abundant, Amount=Big
+Rule04, Operator=AND, Risk=MediumR, IncomeLevel=Hig, Assets=Abundant, Amount=VeryBig, Job=Stable
+Rule05, Operator=AND, Risk=HighR, Age=Young, Amount=Big
+Rule07, Operator=AND, Risk=HighR, IncomeLevel=Low, Amount=VeryBig
+Rule08, Operator=AND, Risk=HighR, IncomeLevel=Med, Amount=VeryBig
+Rule09, Operator=AND, Risk=LowR, Amount=Medium, Job=Stable, History=Good
+Rule10, Operator=AND, Risk=MediumR, Amount=Big, Job=Stable, History=Good
+Rule11, Operator=AND, Risk=HighR, IncomeLevel=Low, Job=Unstable
+Rule12, Operator=AND, Risk=HighR, IncomeLevel=Med, Amount=Big, History=Poor
+Rule13, Operator=AND, Risk=HighR, IncomeLevel=Low, Amount=Big, History=Poor
+Rule14, Operator=AND, Risk=LowR, Assets=Scarce, Amount=Small, History=Good
+Rule15, Operator=AND, Risk=LowR, Assets=Scarce, Amount=Medium, History=Good
+Rule16, Operator=AND, Risk=MediumR, Age=Adult, IncomeLevel=Hig, Amount=Medium
+Rule17, Operator=AND, Risk=MediumR, Age=Adult, Assets=Abundant, Amount=Medium
+Rule18, Operator=AND, Risk=MediumR, Assets=Moderate, Amount=Medium, Job=Stable
+Rule19, Operator=AND, Risk=MediumR, Age=Young, IncomeLevel=Low
+Rule20, Operator=AND, Risk=HighR, Age=Young, IncomeLevel=Med
+Rule21, Operator=AND, Risk=MediumR, Age=Young, Assets=Moderate
+Rule22, Operator=AND, Risk=HighR, Age=Young, Assets=Scarce
+Rule23, Operator=AND, Risk=MediumR, Age=Young, Amount=Big
+Rule24, Operator=AND, Risk=HighR, Age=Young, Amount=VeryBig
+Rule25, Operator=AND, Risk=HighR, Age=Young, Job=Unstable
+Rule26, Operator=AND, Risk=MediumR, Age=Young, History=Poor
+Rule27, Operator=AND, Risk=HighR, Age=Young, History=Standard
+Rule28, Operator=AND, Risk=MediumR, Age=Elder, IncomeLevel=Low
+Rule30, Operator=AND, Risk=MediumR, Age=Elder, Assets=Moderate
+Rule32, Operator=AND, Risk=MediumR, Age=Elder, Amount=Big
+Rule35, Operator=AND, Risk=MediumR, Age=Elder, History=Poor
+Rule46, Operator=AND, Risk=MediumR, IncomeLevel=Med
+Rule47, Operator=AND, Risk=HighR, Amount=Big, Job=Stable
+Rule48, Operator=AND, Risk=HighR, Amount=VeryBig, Job=Stable
+Rule49, Operator=AND, Risk=MediumR, Amount=Big, Job=Stable, History=Good
+Rule50, Operator=AND, Risk=MediumR, Amount=VeryBig, Job=Stable, History=Good
+Rule51, Operator=AND, Risk=MediumR, IncomeLevel=Med, OP=OR, Assets=Scarce, Amount=Big, Amount=VeryBig, Job=Unstable
+Rule52, Operator=AND, Risk=HighR, IncomeLevel=Low, OP=OR, Assets=Scarce, Amount=Big, Amount=VeryBig, Job=Unstable
+Rule53, Operator=AND, Risk=HighR, Age=Elder, OP=OR, Amount=Big, IncomeLevel=Med, Assets=Scarce, Amount=VeryBig, Job=Unstable, History=Standard
